@@ -13,17 +13,17 @@ node{
     } 
     
     stage("Build Dokcer Image") {
-         sh "docker build -t smileysri/java-web-app-docker:${buildNumber} ."
+         sh "docker build -t 901477/java-web-app-docker:${buildNumber} ."
     }
     
    stage("Docker Login And Push"){
         
         withCredentials([string(credentialsId: 'Docker_Hub_Pwd', variable: 'Docker_Hub_Pwd')]) {
-           sh "docker login -u smileysri -p ${Docker_Hub_Pwd}"
+           sh "docker login -u 901477 -p ${Docker_Hub_Pwd}"
         }
      
          
-       sh "docker push smileysri/java-web-app-docker:${buildNumber}"
+       sh "docker push 901477/java-web-app-docker:${buildNumber}"
        
     } 
    
@@ -32,7 +32,7 @@ node{
         sshagent(['Docker_Dev_Server_SSH']) {
          
           sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.11.226 docker rm -f javawebappcontainer || true"
-          sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.11.226 docker run -d -p 8080:8080 --name javawebcontainer smileysri/java-web-app-docker:${buildNumber}"
+          sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.11.226 docker run -d -p 8080:8080 --name javawebcontainer 901477/java-web-app-docker:${buildNumber}"
           
         }
     }
